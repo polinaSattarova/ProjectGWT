@@ -1,0 +1,7 @@
+*.[ao]
+*.iml
+.idea
+target
+war
+out
+
