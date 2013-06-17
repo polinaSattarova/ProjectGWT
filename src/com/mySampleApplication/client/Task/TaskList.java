@@ -4,8 +4,9 @@ import com.smartgwt.client.types.*;
 import com.smartgwt.client.widgets.*;
 import com.smartgwt.client.widgets.events.*;
 import com.smartgwt.client.widgets.form.DynamicForm;
-import com.smartgwt.client.widgets.form.fields.DateItem;
-import com.smartgwt.client.widgets.form.fields.TextItem;
+import com.smartgwt.client.widgets.form.fields.*;
+import com.smartgwt.client.widgets.form.validator.IntegerRangeValidator;
+import com.smartgwt.client.widgets.form.validator.LengthRangeValidator;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.widgets.layout.HLayout;
@@ -21,77 +22,48 @@ import com.google.gwt.core.client.EntryPoint;
 
 public class TaskList implements EntryPoint {
 
-    protected boolean isTopIntro() {
-        return true;
-    }
-
     private ListGrid taskGrid;
-    Canvas canvas = new Canvas();
-    public void onModuleLoad() {
-        //final VLayout layout = new VLayout(10);
-        //layout.setAutoHeight();
-        canvas.setAutoHeight();
-        HLayout hLayout = new HLayout(10);
-        taskGrid = createListGrid();
+    private Label label;
+    public Canvas canvas = new Canvas();
 
+    public void onModuleLoad() {
+
+        Label label = new Label();
+        label.setHeight(20);
+        label.setWidth(400);
+        label.setAlign(Alignment.RIGHT);
+        label.setContents("List of Tasks");
+        label.setTop(10);
+        canvas.addChild(label);
+
+        canvas.setAutoHeight();
+        taskGrid = createListGrid();
+        taskGrid.setTop(80);
+        canvas.addChild(taskGrid);
         IButton editShowWindow = new IButton("Edit new task");
         editShowWindow.setShowRollOver(true);
         editShowWindow.setShowDown(true);
         editShowWindow.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                AddTask();
+               TaskEdit.AddTask("Edit window"); //AddTask();
             }
         });
+        editShowWindow.setTop(40);
+        canvas.addChild(editShowWindow);
 
-        hLayout.addMember(editShowWindow);
-
-        canvas.addChild(taskGrid);
-        canvas.addChild(hLayout);
+        Button removeButton = new Button("Remove");
+        removeButton.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                taskGrid.removeSelectedData();
+            }
+        });
+        removeButton.setTop(40);
+        removeButton.setLeft(110);
+        canvas.addChild(removeButton);
 
         canvas.draw();
     }
-    private void AddTask()
-    {
-        final Window winModal = new Window();
-        winModal.setWidth(500);
-        winModal.setHeight(200);
-        winModal.setTitle("Modal Window");
-        winModal.setShowMinimizeButton(false);
-        winModal.setIsModal(true);
-        winModal.setShowModalMask(true);
-        winModal.centerInPage();
-        winModal.addCloseClickHandler(new CloseClickHandler() {
-            public void onCloseClick(CloseClickEvent event) {
-                winModal.destroy();
-            }
-        });
-        DynamicForm form = new DynamicForm();
-        form.setHeight100();
-        form.setWidth100();
-        form.setPadding(5);
-        form.setLayoutAlign(VerticalAlignment.BOTTOM);
 
-        TextItem projectNameField = new TextItem();
-        projectNameField.setTitle("Project");
-        TextItem nameField = new TextItem();
-        nameField.setTitle("Task name");
-        ListGrid list = new ListGrid();
-        list.setValueMap("Europe", "Asia", "North America", "Australia/Oceania", "South America", "Africa");
-
-        DateItem startDateField = new DateItem();
-        startDateField.setTitle("Start date");
-        startDateField.setUseTextField(true);
-        DateItem endDateField = new DateItem();
-        endDateField.setTitle("End date");
-        endDateField.setUseTextField(true);
-        TextItem stateField = new TextItem();
-        stateField.setTitle("State");
-        TextItem developerField = new TextItem();
-        developerField.setTitle("Developer");
-        form.setFields(projectNameField, nameField, startDateField, endDateField, stateField, developerField);
-        winModal.addItem(form);
-        winModal.show();
-    }
     private ListGrid createListGrid() {
 
         final ListGrid taskGrid = new ListGrid();
@@ -132,12 +104,18 @@ public class TaskList implements EntryPoint {
         ListGridField developerField = new ListGridField("developer", "Developer");
         developerField.setValueMap("1", "2", "3", "--");
 
+        LengthRangeValidator lValidator = new LengthRangeValidator();
+        lValidator.setMin(5);
+        lValidator.setErrorMessage("Please enter a valid ( 5-character) value");
+
+        nameField.setValidators(lValidator);
 
         taskGrid.setFields(indexField, projectNameField, nameField, startDateField, endDateField, stateField , developerField);
 
         return taskGrid;
     }
     public Canvas ReturnTaskCanvas(){
+        onModuleLoad();
         return canvas;
     }
 }

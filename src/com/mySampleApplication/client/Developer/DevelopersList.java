@@ -8,6 +8,7 @@ import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
+import com.smartgwt.client.widgets.form.validator.LengthRangeValidator;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
 import com.google.gwt.core.client.EntryPoint;
@@ -34,6 +35,15 @@ public class DevelopersList implements EntryPoint {
         ListGridField lastNameField = new ListGridField("lastName", "LastName");
         ListGridField middleNameField = new ListGridField("middleName", "MiddleName");
         ListGridField positionField = new ListGridField("position", "Position");
+
+        LengthRangeValidator lValidator = new LengthRangeValidator();
+        lValidator.setMin(5);
+        lValidator.setErrorMessage("Please enter a valid ( 5-character) value");
+
+        firstNameField.setValidators(lValidator);
+        lastNameField.setValidators(lValidator);
+        middleNameField.setValidators(lValidator);
+        positionField.setValidators(lValidator);
 
 
         developersGrid.setFields(indexField, firstNameField,lastNameField, middleNameField, positionField);
@@ -76,21 +86,22 @@ public class DevelopersList implements EntryPoint {
         });  
         canvas.addChild(discardButton);
 
-        IButton returnButton = new IButton("Return");
-        returnButton.setTop(250);
-        returnButton.setLeft(330);
-        returnButton.addClickHandler(new ClickHandler() {
+        IButton removeButton = new IButton("Remove");
+        removeButton.setTop(250);
+        removeButton.setLeft(330);
+        removeButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
+                developersGrid.removeSelectedData();
             }
         });
-        canvas.addChild(returnButton);
+        canvas.addChild(removeButton);
 
         canvas.draw();
 
     }
 
     public Canvas ReturnDevelopersCanvas() {
-
+        onModuleLoad();
         return canvas;
     }
 
