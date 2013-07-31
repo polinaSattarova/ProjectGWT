@@ -1,0 +1,6 @@
+*.[ao]
+*.iml
+.idea
+target
+out
+

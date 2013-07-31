@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+
+    <servlet>
+        <servlet-name>com.polinaSattarova.PolivaSattarova PolivaSattarovaService</servlet-name>
+        <servlet-class>com.polinaSattarova.server.PolinaSattarovaServiceImpl</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>com.polinaSattarova.PolivaSattarova BinderService</servlet-name>
+        <servlet-class>com.polinaSattarova.server.BinderServiceImpl</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>com.polinaSattarova.PolinaSattarova BinderService</servlet-name>
+        <servlet-class>com.polinaSattarova.server.BinderServiceImpl</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>com.polinaSattarova.PolivaSattarova PolivaSattarovaService</servlet-name>
+        <url-pattern>/PolinaSattarova/PolinaSattarovaService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>com.polinaSattarova.PolivaSattarova BinderService</servlet-name>
+        <url-pattern>/PolinaSattarova/mdb</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>com.polinaSattarova.PolinaSattarova BinderService</servlet-name>
+        <url-pattern>/PolinaSattarova/mdb</url-pattern>
+    </servlet-mapping>
+
+
+</web-app>
+
+
+
+
